@@ -1,11 +1,11 @@
 import json
 import re
 import typing
-from typing import List
 from os import listdir
+from typing import List
 
 from nltk.tokenize.casual import TweetTokenizer
-
+from path import Path
 
 WHITESPACE = re.compile("[\s\u0020\u00a0\u1680\u180e\u202f\u205f\u3000\u2000-\u200a]+")
 PUNCTCHARS = r"['\"“”‘’.?!…,:;]"
@@ -32,8 +32,8 @@ URL = (
 
 HEART = re.compile(r"""(<3)""")
 
-# Todo: Update with http://en.wikipedia.org/wiki/List_of_emoticons
-# Todo: Classify emoticons according to what they express
+# TODO: Update with http://en.wikipedia.org/wiki/List_of_emoticons
+# TODO: Classify emoticons according to what they express
 
 EMOTICONS = r"""
     (
@@ -48,6 +48,7 @@ EMOTICONS = r"""
       [<>]?
     )"""
 
+# TODO Include contractions
 CONTRACTIONS = re.compile(
     "(?i)(\w+)(n['’′]t|['’′]ve|['’′]ll|['’′]d|['’′]re|['’′]s|['’′]m)"
 )
@@ -61,10 +62,10 @@ HASH = r"""(\#+[\w_]+[\w\'_\-]*[\w_]+)"""
 HTML_TAGS = r"""<[^>\s]+>"""
 EMAIL = (r"""[\w.+-]+@[\w-]+\.([\w-]\.?)+[\w-]""",)
 
-# Todo: Repetitions of punct chars
+# TODO: Repetitions of punct chars
 # Use the Tokenizer implementation for punct chars reduction
 
-# Todo: Tag capitalized words
+# TODO: Tag capitalized words
 
 
 class Tokenizer(TweetTokenizer):
@@ -92,34 +93,11 @@ class Tokenizer(TweetTokenizer):
         return super().tokenize(res)
 
 
-def tweets_numbers():
-    total = 0
-    with open(
-        "/home/julien/Doctorat/Code/Proto/data/CrisisLexT26/2013_Singapore_haze/available_tweets.json"
-    ) as f:
-        loader = json.load(f)
-        for i, _ in enumerate(loader):
-            pass
-        total += i + 1
-    print(total)
-
-
 def to_json(path_read_file, path_write_file):
     with open(path_read_file, "r") as read_file:
         with open(path_write_file, "a") as written_file:
             for line in read_file:
                 written_file.write(json.dumps(line))
-
-
-def stopwords_hard():
-    with open("./data/stopwords.txt", "r") as file:
-        data = file.read().splitlines()
-    return data
-
-
-def len_file(path):
-    with open(path, "r") as file:
-        print(sum(1 for line in file))
 
 
 def fake_data_generator(path_input, path_output, repets):
@@ -132,3 +110,21 @@ def fake_data_generator(path_input, path_output, repets):
 
 
 # Preprocessing from the GloVe algo
+
+
+def new_file_name(input_path: Path, extension: str) -> Path:
+    """Provide the path of a new file using the parent dir name.
+    
+    Arguments:
+        input_path {Path} -- The path of a file contained in the targeted dir
+        extension {str} -- The extension of the new file
+    
+    Returns:
+        output_path {Path} -- The new path generated
+    """
+    if "." not in extension:
+        raise SyntaxError("Missing '.' character in the extension name")
+    output_path: Path = Path(
+        Path.joinpath(*input_path.splitall()[:-1])
+    ) / input_path.dirname().basename() + extension
+    return output_path
