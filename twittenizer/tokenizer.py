@@ -8,8 +8,11 @@ from nltk.tokenize.casual import TweetTokenizer
 from path import Path
 
 WHITESPACE = re.compile("[\s\u0020\u00a0\u1680\u180e\u202f\u205f\u3000\u2000-\u200a]+")
+
 PUNCTCHARS = r"['\"“”‘’.?!…,:;]"
+
 PUNCTSEQ = r"['\"“”‘’]{2,}|[.?!,…]{2,}|[:;]{2,}"
+
 ENTITY = r"&(?:amp|lt|gt|quot);"
 
 URL = (
@@ -48,7 +51,6 @@ EMOTICONS = r"""
       [<>]?
     )"""
 
-# TODO Include contractions
 CONTRACTIONS = re.compile(
     "(?i)(\w+)(n['’′]t|['’′]ve|['’′]ll|['’′]d|['’′]re|['’′]s|['’′]m)"
 )
@@ -60,37 +62,31 @@ MENTION = r"""(@[\w_]+)"""
 HASH = r"""(\#+[\w_]+[\w\'_\-]*[\w_]+)"""
 
 HTML_TAGS = r"""<[^>\s]+>"""
-EMAIL = (r"""[\w.+-]+@[\w-]+\.([\w-]\.?)+[\w-]""",)
 
-# TODO: Repetitions of punct chars
-# Use the Tokenizer implementation for punct chars reduction
+EMAIL = (r"""[\w.+-]+@[\w-]+\.([\w-]\.?)+[\w-]""",)
 
 # TODO: Tag capitalized words
 
 
 class Tokenizer(TweetTokenizer):
-    def __init__(
-        self, preserve_case=True, reduce_len=False, strip_handles=False, tagging=True
-    ):
-        super().__init__(
-            preserve_case=preserve_case,
-            reduce_len=reduce_len,
-            strip_handles=strip_handles,
-        )
-        self.tagging = tagging
+    def __init__(self):
+        super().__init__()
 
     def tokenize(self, text: str) -> List[str]:
-        if self.tagging:
-            res = re.sub(URL, "<URL>", text)
-            res = re.sub(MENTION, "<USER>", res)
-            res = re.sub(r"/", " / ", res)
-            res = re.sub(r"RT", "<RT>", res)
-            res = re.sub(HASH, "<HASH>", res)
-            # res = re.sub(EMAIL, "<EMAIL>", res)
-            res = re.sub(EMOTICONS, "<EMOTICONS>", res)
-            res = re.sub(r"<3", "<HEART>", res)
-            res = re.sub(r"[-+]?[.\d]*[\d]+[:,.\d]*", "<NUM>", res)
-        return super().tokenize(res)
+        res = re.sub(URL, "<URL>", text)
+        res = re.sub(MENTION, "<USER>", res)
+        res = CONTRACTIONS.sub(r"\1 \2", res)
+        res = re.sub(r"/", " / ", res)
+        res = re.sub(r"RT", "<RT>", res)
+        res = re.sub(HASH, "<HASH>", res)
+        # res = re.sub(EMAIL, "<EMAIL>", res)
+        res = re.sub(EMOTICONS, "<EMOTICONS>", res)
+        res = re.sub(r"<3", "<HEART>", res)
+        res = re.sub(r"[-+]?[.\d]*[\d]+[:,.\d]*", "<NUM>", res)
+
+        tokens = super().tokenize(res)
+
+        return tokens
 
 
 def to_json(path_read_file, path_write_file):
@@ -98,15 +94,6 @@ def to_json(path_read_file, path_write_file):
         with open(path_write_file, "a") as written_file:
             for line in read_file:
                 written_file.write(json.dumps(line))
-
-
-def fake_data_generator(path_input, path_output, repets):
-    with open(path_input, "a") as giant:
-        for i in range(repets):
-            with open(path_output, "r") as source:
-                next(source)
-                for line in source:
-                    giant.write(line)
 
 
 # Preprocessing from the GloVe algo
@@ -128,3 +115,4 @@ def new_file_name(input_path: Path, extension: str) -> Path:
         Path.joinpath(*input_path.splitall()[:-1])
     ) / input_path.dirname().basename() + extension
     return output_path
+
