@@ -9,7 +9,7 @@ from path import Path
 
 WHITESPACE = re.compile("[\s\u0020\u00a0\u1680\u180e\u202f\u205f\u3000\u2000-\u200a]+")
 
-PUNCTCHARS = r"['\"“”‘’.?!…,:;]"
+PUNCTCHARS = r"['\"“”‘’.?!…,:;-_*]"
 
 PUNCTSEQ = r"['\"“”‘’]{2,}|[.?!,…]{2,}|[:;]{2,}"
 
@@ -83,6 +83,7 @@ class Tokenizer(TweetTokenizer):
         res = re.sub(EMOTICONS, "<EMOTICONS>", res)
         res = re.sub(r"<3", "<HEART>", res)
         res = re.sub(r"[-+]?[.\d]*[\d]+[:,.\d]*", "<NUM>", res)
+        res = re.sub(PUNCTCHARS, "", res)
 
         tokens = super().tokenize(res)
 
