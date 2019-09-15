@@ -9,7 +9,7 @@ from path import Path
 
 WHITESPACE = re.compile("[\s\u0020\u00a0\u1680\u180e\u202f\u205f\u3000\u2000-\u200a]+")
 
-PUNCTCHARS = r"['\"“”‘’.?!…,:;-_*]"
+PUNCTCHARS = r"['\"“”‘’.?!…,:;-]"
 
 PUNCTSEQ = r"['\"“”‘’]{2,}|[.?!,…]{2,}|[:;]{2,}"
 
@@ -79,7 +79,7 @@ class Tokenizer(TweetTokenizer):
         res = re.sub(r"/", " / ", res)
         res = re.sub(r"RT", "<RT>", res)
         res = re.sub(HASH, "<HASH>", res)
-        # res = re.sub(EMAIL, "<EMAIL>", res)
+        # # res = re.sub(EMAIL, "<EMAIL>", res)
         res = re.sub(EMOTICONS, "<EMOTICONS>", res)
         res = re.sub(r"<3", "<HEART>", res)
         res = re.sub(r"[-+]?[.\d]*[\d]+[:,.\d]*", "<NUM>", res)
@@ -117,3 +117,16 @@ def new_file_name(input_path: Path, extension: str) -> Path:
     ) / input_path.dirname().basename() + extension
     return output_path
 
+
+# {
+#    "tweet_id_str":"415781465748417",
+#    "tweet_timestamp":"Tue Sep 03 15:38:40 +0000 2019",
+#    "tokens":[
+#       "Need",
+#       "to"
+#    ],
+#    "tags":[
+#       "NNP",
+#       "VERB"
+#    ]
+# }
