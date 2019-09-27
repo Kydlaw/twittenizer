@@ -116,17 +116,3 @@ def new_file_name(input_path: Path, extension: str) -> Path:
         Path.joinpath(*input_path.splitall()[:-1])
     ) / input_path.dirname().basename() + extension
     return output_path
-
-
-# {
-#    "tweet_id_str":"415781465748417",
-#    "tweet_timestamp":"Tue Sep 03 15:38:40 +0000 2019",
-#    "tokens":[
-#       "Need",
-#       "to"
-#    ],
-#    "tags":[
-#       "NNP",
-#       "VERB"
-#    ]
-# }

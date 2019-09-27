@@ -13,38 +13,42 @@ CONFIG = {
 
 class MongoMng(object):
     def __init__(self, parameter_list):
-        pass
+        self.connection = None
 
     @classmethod
-    def config_replica(self, config, host="localhost", port=27017) -> None:
+    def config_replica(cls, config=CONFIG, host="localhost", port=27017) -> None:
         client = MongoClient(host, port)
         response = client.admin.command("replSetInitiate", config)
         print(response)
 
     @classmethod
     def connect_db(
-        self,
+        cls,
         host="localhost",
         port=27017,
         replicaset="foo",
         name="twitter",
         collection="tweet",
-    ):
+    ) -> None:
         client = MongoClient(host, port)
         db = client[name]
         connect = db[collection]
         return connect
 
     @classmethod
-    def insert(self, tokens: List[str]):
+    def insert(
+        cls, tweet_id_str: str, tweet_date: str, tokens: List[str], tags: List[str]
+    ):
         # TODO: Check if the database is available and in replica mode
+
         # TODO: Insert data in JSON format
+        # post = {
+        #     "created_at":
+        # }
         pass
 
 
-# import MongoClient from pymongo
-from pymongo import MongoClient
-
+"""
 # Get a MongoClient object
 connectionObject = MongoClient("mongodb://localhost:27017/")
 
@@ -62,3 +66,4 @@ collectionObject.insert({"red": 146, "green": 46, "blue": 246})
 for document in collectionObject.find():
     # print each document
     print(document)
+"""
