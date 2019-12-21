@@ -1,1 +1,1 @@
-from twittenizer import tokenizer
+from .tokenizer import Tokenizer
