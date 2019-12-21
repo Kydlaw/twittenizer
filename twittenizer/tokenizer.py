@@ -2,9 +2,9 @@ import json
 import re
 from os import listdir
 from typing import List
+from pathlib import Path
 
 from nltk.tokenize.casual import TweetTokenizer
-from path import Path
 
 WHITESPACE = re.compile("[\s\u0020\u00a0\u1680\u180e\u202f\u205f\u3000\u2000-\u200a]+")
 PUNCTCHARS = r"['\"“”‘’.?!…,:;(){}&#/_-]"
@@ -108,21 +108,3 @@ def fake_data_generator(path_input, path_output, repets):
 
 
 # Preprocessing from the GloVe algo
-
-
-def new_file_name(input_path: Path, extension: str) -> Path:
-    """Provide the path of a new file using the parent dir name.
-    
-    Arguments:
-        input_path {Path} -- The path of a file contained in the targeted dir
-        extension {str} -- The extension of the new file
-    
-    Returns:
-        output_path {Path} -- The new path generated
-    """
-    if "." not in extension:
-        raise SyntaxError("Missing '.' character in the extension name")
-    output_path: Path = Path(
-        Path.joinpath(*input_path.splitall()[:-1])
-    ) / input_path.dirname().basename() + extension
-    return output_path
