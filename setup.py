@@ -2,6 +2,8 @@
 from setuptools import setup, find_packages
 from os import path
 
+import twittenizer
+
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
@@ -30,7 +32,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="0.0.4",  # Required
+    version=twittenizer.__version__,  # Required
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
