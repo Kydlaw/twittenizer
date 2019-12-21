@@ -1,6 +1,5 @@
 import json
 import re
-import typing
 from os import listdir
 from typing import List
 
@@ -8,12 +7,12 @@ from nltk.tokenize.casual import TweetTokenizer
 from path import Path
 
 WHITESPACE = re.compile("[\s\u0020\u00a0\u1680\u180e\u202f\u205f\u3000\u2000-\u200a]+")
-PUNCTCHARS = r"['\"“”‘’.?!…,:;]"
+PUNCTCHARS = r"['\"“”‘’.?!…,:;(){}&#/_-]"
 PUNCTSEQ = r"['\"“”‘’]{2,}|[.?!,…]{2,}|[:;]{2,}"
 ENTITY = r"&(?:amp|lt|gt|quot);"
 
 URL = (
-    r"(?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:[a-z]{2,13})/)"
+    r"(?:(http|https)?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:[a-z]{2,13})/)"
     + r"(?:[^\s()<>{}\[\]]+|\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\))+"
     + r"(?:\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\)|[^\s`!()\[\]{};:'.,<>?«»“”‘’])|"
     + r"(?:(?<!@)[a-z0-9]+(?:[.\-][a-z0-9]+)*[.]"
@@ -83,13 +82,12 @@ class Tokenizer(TweetTokenizer):
         if self.tagging:
             res = re.sub(URL, "<URL>", text)
             res = re.sub(MENTION, "<USER>", res)
-            res = re.sub(r"/", " / ", res)
             res = re.sub(r"RT", "<RT>", res)
             res = re.sub(HASH, "<HASH>", res)
-            # res = re.sub(EMAIL, "<EMAIL>", res)
             res = re.sub(EMOTICONS, "<EMOTICONS>", res)
             res = re.sub(r"<3", "<HEART>", res)
             res = re.sub(r"[-+]?[.\d]*[\d]+[:,.\d]*", "<NUM>", res)
+            res = re.sub(PUNCTCHARS, "", res)
         return super().tokenize(res)
 
 
