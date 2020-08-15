@@ -67,7 +67,7 @@ setup(
     author="Kydlaw",  # Optional
     # This should be a valid email address corresponding to the author listed
     # above.
-    author_email="julien.coche@protonmail.com",  # Optional
+    author_email="kydlawj@pm.me",  # Optional
     # Classifiers help users find your project by categorizing it.
     #
     # For a list of valid classifiers, see https://pypi.org/classifiers/
