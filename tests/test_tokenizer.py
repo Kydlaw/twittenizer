@@ -1,5 +1,7 @@
 import pytest
 
+from twittenizer.tokenizer import Tokenizer
+
 
 @pytest.fixture
 def tokenizer():
@@ -10,12 +12,15 @@ def tokenizer():
 
 def test_tokenize_url_1(tokenizer):
     s1 = "Here is my website: https://t.co/EZWeDhjl, check it out! "
-    assert " ".join(tokenizer.tokenize(s1)) == "Here is my website <URL> check it out"
+    assert " ".join(tokenizer.tokenize(s1)) == "Here is my website check it out"
 
 
 def test_tokenize_url_2(tokenizer):
     s1 = "Here is my http site!!!! mysite.com, check it out! "
-    assert " ".join(tokenizer.tokenize(s1)) == "Here is my http site <URL> check it out"
+    assert (
+        " ".join(tokenizer.tokenize(s1))
+        == "Here is my http site mysite com check it out"
+    )
 
 
 def test_tokenize_2(tokenizer):
@@ -30,7 +35,7 @@ def test_tokenize_3(tokenizer):
     s3 = "Video: 6/10: Containing Colorado's wildfire; revisiting Watergate http://t.co/EZWeDhjl #FollowBack"
     assert (
         " ".join(tokenizer.tokenize(s3))
-        == "Video <NUM> <NUM> Containing Colorados wildfire revisiting Watergate <URL> <HASH>"
+        == "Video <NUM> <NUM> Containing Colorados wildfire revisiting Watergate FollowBack"
     )
 
 
