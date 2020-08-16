@@ -35,8 +35,9 @@ domains and tasks. The basic logic is this:
 
 ######################################################################
 
-import regex  # https://github.com/nltk/nltk/issues/2409
 import html
+
+import regex  # https://github.com/nltk/nltk/issues/2409
 
 ######################################################################
 # The following strings are components in the regular expression
@@ -163,7 +164,9 @@ REGEXPS = (
 ######################################################################
 # This is the core tokenizing regex:
 
-WORD_RE = regex.compile(r"""(%s)""" % "|".join(REGEXPS), regex.VERBOSE | regex.I | regex.UNICODE)
+WORD_RE = regex.compile(
+    r"""(%s)""" % "|".join(REGEXPS), regex.VERBOSE | regex.I | regex.UNICODE
+)
 
 # WORD_RE performs poorly on these patterns:
 HANG_RE = regex.compile(r"([^a-zA-Z0-9])\1{3,}")
@@ -302,7 +305,6 @@ class TweetTokenizer:
         return words
 
 
-
 ######################################################################
 # Normalization Functions
 ######################################################################
@@ -317,7 +319,6 @@ def reduce_lengthening(text):
     return pattern.sub(r"\1\1\1", text)
 
 
-
 def remove_handles(text):
     """
     Remove Twitter username handles from text.
@@ -327,7 +328,6 @@ def remove_handles(text):
     )
     # Substitute handles with ' ' to ensure that text on either side of removed handles are tokenized correctly
     return pattern.sub(" ", text)
-
 
 
 ######################################################################
@@ -342,7 +342,6 @@ def casual_tokenize(text, preserve_case=True, reduce_len=False, strip_handles=Fa
     return TweetTokenizer(
         preserve_case=preserve_case, reduce_len=reduce_len, strip_handles=strip_handles
     ).tokenize(text)
-
 
 
 ###############################################################################

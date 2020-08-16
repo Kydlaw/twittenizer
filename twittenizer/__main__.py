@@ -1,5 +1,6 @@
-from pymongo import MongoClient
 from typing import List
+
+from pymongo import MongoClient
 
 from .tokenizer import Tokenizer
 
@@ -105,4 +106,3 @@ if __name__ == "__main__":
 # mongod --port 27017 --dbpath /data/db0 --replSet foo&
 # mongod --port 27018 --dbpath /data/db1 --replSet foo&
 # mongod --port 27019 --dbpath /data/db2 --replSet foo&
-

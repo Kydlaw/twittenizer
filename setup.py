@@ -2,8 +2,6 @@
 from setuptools import setup, find_packages
 from os import path
 
-import twittenizer
-
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
@@ -32,7 +30,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version=twittenizer.__version__,  # Required
+    version="0.0.4",  # Required
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
@@ -111,7 +109,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    packages=find_packages(where="twittenizer"),  # Required
+    packages=find_packages(include="twittenizer"),  # Required
     # Specify which Python versions you support. In contrast to the
     # 'Programming Language' classifiers above, 'pip install' will check this
     # and refuse to install the project if the version does not match. If you
@@ -124,7 +122,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=["nltk"],  # Optional
+    install_requires=["regex", "pymongo"],  # Optional
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
     # syntax, for example:
