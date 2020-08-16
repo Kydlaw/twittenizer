@@ -1,11 +1,11 @@
 # coding: utf-8
 
 """
-    Un tokenizer cree specifiquement pour les messages postes sur Twitter (appeles tweets).
-    Les contraintes imposees par Twitter lors de la redaction des messages forcent les 
-    utilisateurs a ne pas suivre les standards typographiques.
-    Le but de ce tokenizer est de reduire au maximum le bruit induit par les contraintes
-    tout en conservant un maximum des informations disponibles dans le tweet.
+A tokenizer created specifically for messages posted on Twitter ( known as tweets).
+The constraints imposed by Twitter during the writing of messages force the users not to
+follow typographical standards. 
+The purpose of this tokenizer is to reduce as much as possible the noise induced by the
+constraints while keeping as much of the information available in the tweet as possible.
 """
 
 from .tokenizer import Tokenizer
