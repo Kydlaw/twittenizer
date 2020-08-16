@@ -2,7 +2,7 @@ import html
 import re
 from typing import List
 
-from nltk.tokenize.casual import TweetTokenizer
+from .nltk_tweet_tokenizer import TweetTokenizer
 
 __all__ = ['Tokenizer']
 
