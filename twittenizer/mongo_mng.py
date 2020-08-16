@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from typing import List
 
+__all__ = ["MongoMng"]
+
 CONFIG = {
     "_id": "foo",
     "members": [
